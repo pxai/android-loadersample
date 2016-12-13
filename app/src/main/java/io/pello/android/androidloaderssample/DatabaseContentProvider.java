@@ -21,8 +21,7 @@ import android.util.Log;
  * @author Pello Xabier Altadill Izura
  * @greetz any
  */
-public class SimpleContentProvider extends ContentProvider {
-
+public class DatabaseContentProvider extends ContentProvider {
 
     // We set uriMatcher to get params passed to URIs.
     // So we can give different values depending on those params
@@ -33,7 +32,7 @@ public class SimpleContentProvider extends ContentProvider {
     /**
      * default constructor.
      */
-    public SimpleContentProvider() {
+    public DatabaseContentProvider() {
     }
 
     /**
@@ -53,7 +52,7 @@ public class SimpleContentProvider extends ContentProvider {
     private void initUris() {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-        // This will match: content://io.pello.android.androidloaderssample.provider.Students/students/
+        // This will match: content://io.pello.android.androidloaderssample.provider.Students/students/1
         uriMatcher.addURI("io.pello.android.androidloaderssample.provider.Students", "students/", 1);
 
         // This will match: content://io.pello.android.androidloaderssample.provider.Students/students/2
@@ -79,18 +78,18 @@ public class SimpleContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-
-
+        /*
         Log.d("PELLODEBUG","CP> query " + uri+ " match:" + uriMatcher.match(uri));
         switch (uriMatcher.match(uri)) {
             case 1:
                 Log.d("PELLODEBUG","query to 1. ");
-                break;
+                return mCursor;
             case 2:
                 Log.d("PELLODEBUG","query to 2. " + uri.getLastPathSegment());
                 break;
             default:	break;
         }
+        */
 
         return mCursor;
     }

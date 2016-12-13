@@ -2,83 +2,60 @@ package io.pello.android.androidloaderssample;
 
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.SimpleCursorAdapter;
+import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity  implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    private String contentUri = "content://io.pello.android.androidloaderssample.provider.Students/students/";
-    // This is the Adapter being used to display the list's data.
-    SimpleCursorAdapter mAdapter;
-
-    // If non-null, this is the current filter the user has provided.
-    String mCurFilter;
-
-    ListView listView;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView = (ListView) findViewById(R.id.listView);
-
-        // Create an empty adapter we will use to display the loaded data.
-        mAdapter = new SimpleCursorAdapter(this,
-                android.R.layout.simple_list_item_2, null,
-                new String[] { "_id", "tarea" },
-                new int[] { android.R.id.text1, android.R.id.text2 }, 0);
-
-        listView.setAdapter(mAdapter);
-
-        // Prepare the loader.  Either re-connect with an existing one,
-        // or start a new one.
+        textView = (TextView) findViewById(R.id.textView);
         getLoaderManager().initLoader(0, null, this);
     }
 
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        // This is called when a new Loader needs to be created.  This
-        // sample only has one Loader, so we don't care about the ID.
-        // First, pick the base URI to use depending on whether we are
-        // currently filtering.
-        Uri baseUri;
-
-        baseUri = Uri.parse(this.contentUri);
-
-
-        Log.d("PELLODEBUG", "Creating loader");
-        return new CursorLoader(this, baseUri,  // The content URI of the words table
-                new String[]{"_id","name"},               // The columns to return for each row
-                "",                        // Selection criteria parameters
-                new String[]{""},                     // Selection criteria values
-                "");                            // The sort order for the returned rows
+        return new CursorLoader(this,
+                Uri.parse("content://com.github.browep.cursorloader.data")
+                , new String[]{"col1"}, null, null, null);
     }
 
-
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        // Swap the new cursor in.  (The framework will take care of closing the
-        // old cursor once we return.)
-        mAdapter.swapCursor(data);
-        Log.d("PELLODEBUG", "Total records: " +data.getCount());
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        cursor.moveToFirst();
+        String text = (String) textView.getText();
+        while (!cursor.isAfterLast()) {
+            text += "<br />" + cursor.getString(1);
+            cursor.moveToNext();
+        }
+        textView.setText(text);
 
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        // This is called when the last Cursor provided to onLoadFinished()
-        // above is about to be closed.  We need to make sure we are no
-        // longer using it.
-        mAdapter.swapCursor(null);
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        Log.d("PELLODEBUG", "On Loader Reset");
+    }
+
+    /**
+     * opens the other activity
+     * @param view
+     */
+    public void openActivitySQL (View view) {
+        Intent intent = new Intent(this, SQLLoaderMainActivity.class);
+        startActivity(intent);
     }
 }
