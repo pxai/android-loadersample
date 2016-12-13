@@ -3,6 +3,8 @@ package io.pello.android.androidloaderssample;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity  implements
         // Create an empty adapter we will use to display the loaded data.
         mAdapter = new SimpleCursorAdapter(this,
                 android.R.layout.simple_list_item_2, null,
-                new String[] { Contacts.DISPLAY_NAME, Contacts.CONTACT_STATUS },
+                new String[] { "name", "description" },
                 new int[] { android.R.id.text1, android.R.id.text2 }, 0);
 
         listView.setAdapter(mAdapter);
@@ -50,15 +52,6 @@ public class MainActivity extends AppCompatActivity  implements
 //        Log.i("FragmentComplexList", "Item clicked: " + id);
 //    }
 
-    // These are the Contacts rows that we will retrieve.
-    static final String[] CONTACTS_SUMMARY_PROJECTION = new String[] {
-            Contacts._ID,
-            Contacts.DISPLAY_NAME,
-            Contacts.CONTACT_STATUS,
-            Contacts.CONTACT_PRESENCE,
-            Contacts.PHOTO_ID,
-            Contacts.LOOKUP_KEY,
-    };
 
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         // This is called when a new Loader needs to be created.  This
@@ -76,7 +69,7 @@ public class MainActivity extends AppCompatActivity  implements
         // Now create and return a CursorLoader that will take care of
         // creating a Cursor for the data being displayed.
         String select = "((" + Contacts.DISPLAY_NAME + " NOTNULL) AND ("
-                + Contacts.HAS_PHONE_NUMBER + "=1) AND ("
+                + ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1) AND ("
                 + Contacts.DISPLAY_NAME + " != '' ))";
         return new CursorLoader(getActivity(), baseUri,
                 CONTACTS_SUMMARY_PROJECTION, select, null,
@@ -90,12 +83,6 @@ public class MainActivity extends AppCompatActivity  implements
         // old cursor once we return.)
         mAdapter.swapCursor(data);
 
-        // The list should now be shown.
-        if (isResumed()) {
-            setListShown(true);
-        } else {
-            setListShownNoAnimation(true);
-        }
     }
 
     @Override
