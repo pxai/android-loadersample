@@ -38,7 +38,7 @@ public class SQLLoaderMainActivity extends AppCompatActivity  implements
         // Create an empty adapter we will use to display the loaded data.
         mAdapter = new SimpleCursorAdapter(this,
                 android.R.layout.simple_list_item_2, null,
-                new String[] { "_id", "tarea" },
+                new String[] { "_id", "name" },
                 new int[] { android.R.id.text1, android.R.id.text2 }, 0);
 
         listView.setAdapter(mAdapter);

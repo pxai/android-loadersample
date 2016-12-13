@@ -2,25 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.pello.android.androidloaderssample">
 
-    <provider
-        android:name=".SimpleProvider"
-        android:authorities="com.github.browep.cursorloader"
-        android:enabled="true"
-        android:exported="true" />
 
-    <provider
-        android:name=".DatabaseContentProvider"
-        android:authorities="io.pello.android.androidloaderssample.provider"
-        android:enabled="true"
-        android:exported="true">
-        <uses-permission android:name="io.pello.android.androidloaderssample.provider.Students.READ" />
-        <!-- TODO: We could apply permissions -->
-        <!--
-        android:readPermission="io.pello.android.androidloaderssample.provider.READ"
-        android:writePermission="io.pello.android.androidloaderssample.provider.WRITE"
-        android:permission="io.pello.android.androidloaderssample.provider.READ_WRITE"
-        -->
-    </provider>
 
     <application
         android:allowBackup="true"
@@ -37,6 +19,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".SimpleProvider"
+            android:authorities="com.github.browep.cursorloader.data"
+            android:enabled="true"
+            android:exported="true" />
+
+        <provider
+            android:name=".DatabaseContentProvider"
+            android:authorities="io.pello.android.androidloaderssample.provider.Students"
+            android:enabled="true"
+            android:exported="true">
+            <uses-permission android:name="io.pello.android.androidloaderssample.provider.Students.READ" />
+            <!-- TODO: We could apply permissions -->
+            <!--
+            android:readPermission="io.pello.android.androidloaderssample.provider.READ"
+            android:writePermission="io.pello.android.androidloaderssample.provider.WRITE"
+            android:permission="io.pello.android.androidloaderssample.provider.READ_WRITE"
+            -->
+        </provider>
     </application>
 
 </manifest>
