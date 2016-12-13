@@ -1,12 +1,14 @@
 package io.pello.android.androidloaderssample;
 
 import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
@@ -14,6 +16,7 @@ import android.widget.SimpleCursorAdapter;
 public class MainActivity extends AppCompatActivity  implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
+    private String contentUri = "content://io.pello.android.androidloaderssample.provider.Students/students/";
     // This is the Adapter being used to display the list's data.
     SimpleCursorAdapter mAdapter;
 
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity  implements
         // Create an empty adapter we will use to display the loaded data.
         mAdapter = new SimpleCursorAdapter(this,
                 android.R.layout.simple_list_item_2, null,
-                new String[] { "name", "description" },
+                new String[] { "_id", "tarea" },
                 new int[] { android.R.id.text1, android.R.id.text2 }, 0);
 
         listView.setAdapter(mAdapter);
@@ -43,37 +46,22 @@ public class MainActivity extends AppCompatActivity  implements
     }
 
 
-
-
-
-
-//    public void onListItemClick(ListView l, View v, int position, long id) {
-//        // Insert desired behavior here.
-//        Log.i("FragmentComplexList", "Item clicked: " + id);
-//    }
-
-
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         // This is called when a new Loader needs to be created.  This
         // sample only has one Loader, so we don't care about the ID.
         // First, pick the base URI to use depending on whether we are
         // currently filtering.
         Uri baseUri;
-        if (mCurFilter != null) {
-            baseUri = Uri.withAppendedPath(Contacts.CONTENT_FILTER_URI,
-                    Uri.encode(mCurFilter));
-        } else {
-            baseUri = Contacts.CONTENT_URI;
-        }
 
-        // Now create and return a CursorLoader that will take care of
-        // creating a Cursor for the data being displayed.
-        String select = "((" + Contacts.DISPLAY_NAME + " NOTNULL) AND ("
-                + ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1) AND ("
-                + Contacts.DISPLAY_NAME + " != '' ))";
-        return new CursorLoader(getActivity(), baseUri,
-                CONTACTS_SUMMARY_PROJECTION, select, null,
-                Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC");
+        baseUri = Uri.parse(this.contentUri);
+
+
+        Log.d("PELLODEBUG", "Creating loader");
+        return new CursorLoader(this, baseUri,  // The content URI of the words table
+                new String[]{"_id","name"},               // The columns to return for each row
+                "",                        // Selection criteria parameters
+                new String[]{""},                     // Selection criteria values
+                "");                            // The sort order for the returned rows
     }
 
 
@@ -82,6 +70,7 @@ public class MainActivity extends AppCompatActivity  implements
         // Swap the new cursor in.  (The framework will take care of closing the
         // old cursor once we return.)
         mAdapter.swapCursor(data);
+        Log.d("PELLODEBUG", "Total records: " +data.getCount());
 
     }
 

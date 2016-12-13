@@ -16,5 +16,15 @@
             </intent-filter>
         </activity>
     </application>
-
+    <provider
+        android:name="io.pello.android.androidloaderssample.SimpleContentProvider"
+        android:authorities="io.pello.android.androidloaderssample.provider.Students"
+        android:enabled="true"
+        android:exported="true"
+        >
+        <!-- TODO: We could apply permissions -->
+        <!-- android:readPermission="io.pello.android.androidloaderssample.provider.READ"
+        android:writePermission="io.pello.android.androidloaderssample.provider.WRITE"
+        android:permission="io.pello.android.androidloaderssample.provider.READ_WRITE" -->
+    </provider>
 </manifest>
