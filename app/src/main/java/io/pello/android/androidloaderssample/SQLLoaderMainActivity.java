@@ -14,7 +14,7 @@ import android.widget.SimpleCursorAdapter;
 public class SQLLoaderMainActivity extends AppCompatActivity  implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    private String contentUri = "content://io.pello.android.androidloaderssample.provider.Students/students/1";
+    private String contentUri = "content://io.pello.android.androidloaderssample.sqlprovider.Todo/tareas";
     // This is the Adapter being used to display the list's data.
     SimpleCursorAdapter mAdapter;
 
@@ -22,23 +22,18 @@ public class SQLLoaderMainActivity extends AppCompatActivity  implements
     String mCurFilter;
 
     private ListView listView;
-    private DbAdapter dbAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sql_loader);
 
-        new DatabaseContentProvider().onCreate();
-        dbAdapter = new DbAdapter(this);
-        dbAdapter.open();
-
         listView = (ListView) findViewById(R.id.listView);
 
         // Create an empty adapter we will use to display the loaded data.
         mAdapter = new SimpleCursorAdapter(this,
                 android.R.layout.simple_list_item_2, null,
-                new String[] { "_id", "name" },
+                new String[] { "_id", "tarea" },
                 new int[] { android.R.id.text1, android.R.id.text2 }, 0);
 
         listView.setAdapter(mAdapter);
@@ -61,7 +56,7 @@ public class SQLLoaderMainActivity extends AppCompatActivity  implements
 
         Log.d("PELLODEBUG", "Creating loader");
         return new CursorLoader(this, baseUri,  // The content URI of the words table
-                new String[]{"_id","name"},               // The columns to return for each row
+                new String[]{"_id","tarea"},               // The columns to return for each row
                 "",                        // Selection criteria parameters
                 new String[]{""},                     // Selection criteria values
                 "");                            // The sort order for the returned rows
@@ -80,7 +75,7 @@ public class SQLLoaderMainActivity extends AppCompatActivity  implements
             data += "\n" + cursor.getString(1);
             cursor.moveToNext();
         }
-        Log.d("PELLODEBUG", "Total records: " + data);
+        Log.d("PELLODEBUG", "Total records: " + cursor.getCount());
 
     }
 

@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity  implements
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
         return new CursorLoader(this,
-                Uri.parse("content://com.github.browep.cursorloader.data")
-                , new String[]{"col1"}, null, null, null);
+                Uri.parse("content://io.pello.android.androidloaderssample.provider.Students")
+                , new String[]{"name","description"}, null, null, null);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity  implements
         cursor.moveToFirst();
         String text = (String) textView.getText();
         while (!cursor.isAfterLast()) {
-            text += "<br />" + cursor.getString(1);
+            text += "\n" + cursor.getString(0) + ": " + cursor.getString(1);
             cursor.moveToNext();
         }
         textView.setText(text);

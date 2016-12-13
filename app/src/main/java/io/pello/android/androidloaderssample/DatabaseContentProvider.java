@@ -28,11 +28,12 @@ public class DatabaseContentProvider extends ContentProvider {
     private  UriMatcher uriMatcher;
     // Our data:
     private MatrixCursor mCursor;
-
+    private DbAdapter dbAdapter;
     /**
      * default constructor.
      */
     public DatabaseContentProvider() {
+
     }
 
     /**
@@ -41,8 +42,11 @@ public class DatabaseContentProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         Log.d("PELLODEBUG","CP> onCreate, init data.");
+        dbAdapter = new DbAdapter(getContext());
+        dbAdapter.open();
+        dbAdapter.insertarTarea("ARG");
+        dbAdapter.insertarTarea("UAAAGH");
         initUris();
-        initData();
         return true;
     }
     /**
@@ -53,21 +57,13 @@ public class DatabaseContentProvider extends ContentProvider {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
         // This will match: content://io.pello.android.androidloaderssample.provider.Students/students/1
-        uriMatcher.addURI("io.pello.android.androidloaderssample.provider.Students", "students/", 1);
+        uriMatcher.addURI("io.pello.android.androidloaderssample.sqlprovider.Todo", "tareas/", 1);
 
         // This will match: content://io.pello.android.androidloaderssample.provider.Students/students/2
         uriMatcher.addURI("io.pello.android.androidloaderssample.provider.Students", "students/*/", 2);
     }
 
-    /**
-     * we add some data to our "database"
-     */
-    private void initData () {
-        mCursor = new MatrixCursor(new String[] {"_id","name","description"});
-        mCursor.addRow(new Object[] {2,"Velasco","A future iPhone developer"});
-        mCursor.addRow(new Object[] {1,"JR","Android developer"});
-        mCursor.addRow(new Object[] {3,"Vigor","VB6 developer"});
-    }
+
 
 
     /**
@@ -78,18 +74,18 @@ public class DatabaseContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        /*
+
         Log.d("PELLODEBUG","CP> query " + uri+ " match:" + uriMatcher.match(uri));
         switch (uriMatcher.match(uri)) {
             case 1:
                 Log.d("PELLODEBUG","query to 1. ");
-                return mCursor;
+                return dbAdapter.obtenerTareas();
             case 2:
                 Log.d("PELLODEBUG","query to 2. " + uri.getLastPathSegment());
                 break;
             default:	break;
         }
-        */
+
 
         return mCursor;
     }

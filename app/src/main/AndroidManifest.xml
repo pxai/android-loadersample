@@ -22,13 +22,13 @@
 
         <provider
             android:name=".SimpleProvider"
-            android:authorities="com.github.browep.cursorloader.data"
+            android:authorities="io.pello.android.androidloaderssample.provider.Students"
             android:enabled="true"
             android:exported="true" />
 
         <provider
             android:name=".DatabaseContentProvider"
-            android:authorities="io.pello.android.androidloaderssample.provider.Students"
+            android:authorities="io.pello.android.androidloaderssample.sqlprovider.Todo"
             android:enabled="true"
             android:exported="true">
             <uses-permission android:name="io.pello.android.androidloaderssample.provider.Students.READ" />

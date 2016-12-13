@@ -9,6 +9,7 @@ import android.util.Log;
 
 /**
  * Created by PELLO_ALTADILL on 13/12/2016.
+ * Simple provider with just one query
  */
 public class SimpleProvider extends ContentProvider {
 
@@ -21,12 +22,12 @@ public class SimpleProvider extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] strings, String s, String[] strings1, String s1) {
-            MatrixCursor cursor = new MatrixCursor(new String[]{"_id","col1"});
-            for(String name : new String[]{"poodle","labrador","german shephard","boston terrier","hound"}){
-                cursor.addRow(new Object[]{0,name});
-            }
-            Log.i("PELLODEBUG","returning " + cursor);
-            return cursor;
+            MatrixCursor mCursor = new MatrixCursor(new String[] {"_id","name","description"});
+        mCursor.addRow(new Object[] {2,"Velasco","A future iPhone developer"});
+        mCursor.addRow(new Object[] {1,"JR","Android developer"});
+        mCursor.addRow(new Object[] {3,"Vigor","VB6 developer"});
+            Log.i("PELLODEBUG","returning " + mCursor);
+            return mCursor;
     }
 
     @Override
