@@ -33,11 +33,11 @@
             android:exported="true">
             <uses-permission android:name="io.pello.android.androidloaderssample.provider.Students.READ" />
             <!-- TODO: We could apply permissions -->
-            <!--
+
             android:readPermission="io.pello.android.androidloaderssample.provider.READ"
             android:writePermission="io.pello.android.androidloaderssample.provider.WRITE"
             android:permission="io.pello.android.androidloaderssample.provider.READ_WRITE"
-            -->
+
         </provider>
     </application>
 
