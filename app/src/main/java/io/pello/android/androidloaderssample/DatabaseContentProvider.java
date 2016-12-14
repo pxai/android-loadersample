@@ -44,8 +44,8 @@ public class DatabaseContentProvider extends ContentProvider {
         Log.d("PELLODEBUG","CP> onCreate, init data.");
         dbAdapter = new DbAdapter(getContext());
         dbAdapter.open();
-        dbAdapter.insertarTarea("ARG");
-        dbAdapter.insertarTarea("UAAAGH");
+        dbAdapter.insertarTarea("STUDY");
+        dbAdapter.insertarTarea("LEARN");
         initUris();
         return true;
     }
