@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity  implements
     }
 
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-
         return new CursorLoader(this,
                 Uri.parse("content://io.pello.android.androidloaderssample.provider.Students")
                 , new String[]{"name","description"}, null, null, null);
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity  implements
             cursor.moveToNext();
         }
         textView.setText(text);
-
     }
 
     @Override

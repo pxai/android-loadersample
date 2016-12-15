@@ -13,7 +13,6 @@ import android.util.Log;
  */
 public class SimpleProvider extends ContentProvider {
 
-
     @Override
     public boolean onCreate() {
         Log.i("PELLODEBUG", "onCreate");
@@ -23,9 +22,10 @@ public class SimpleProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] strings, String s, String[] strings1, String s1) {
             MatrixCursor mCursor = new MatrixCursor(new String[] {"_id","name","description"});
-        mCursor.addRow(new Object[] {2,"Velasco","A future iPhone developer"});
-        mCursor.addRow(new Object[] {1,"JR","Android developer"});
-        mCursor.addRow(new Object[] {3,"Vigor","VB6 developer"});
+        mCursor.addRow(new Object[] {2,"The End Ika","The Ghost Student"});
+        mCursor.addRow(new Object[] {1,"D. Larris","The Night Stalker"});
+        mCursor.addRow(new Object[] {4,"Raúl","The one man army"});
+        mCursor.addRow(new Object[] {3,"D. Dandola","The killer machine"});
             Log.i("PELLODEBUG","returning " + mCursor);
             return mCursor;
     }
